@@ -30,8 +30,8 @@ struct Args {
     arg_day: Vec<NaiveDate>,
 }
 
-fn exponent(b:f32, n:u32) -> i64 {
-    let i : i32 = n as i32 - 1;
+fn exponent(b: f32, n: u32) -> i64 {
+    let i: i32 = n as i32 - 1;
     b.powi(i).ceil() as i64
 }
 
@@ -67,4 +67,3 @@ fn main() {
         exit(1);
     }
 }
-
