@@ -32,7 +32,7 @@ struct Args {
 
 fn exponent(b:f32, n:u32) -> i64 {
     let i : i32 = n as i32 - 1;
-    return b.powi(i).ceil() as i64;
+    b.powi(i).ceil() as i64
 }
 
 fn main() {

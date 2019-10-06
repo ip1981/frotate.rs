@@ -22,7 +22,7 @@ pub fn partition (f: &Fn(u32) -> i64, v: &Vec<i64>) -> LinkedList<LinkedList<i64
     }
     res.push_back(term);
 
-    return res;
+    res
 }
 
 pub fn partition_days (f: &Fn(u32) -> i64, days: &Vec<NaiveDate>) -> LinkedList<LinkedList<NaiveDate>> {
@@ -46,5 +46,5 @@ pub fn partition_days (f: &Fn(u32) -> i64, days: &Vec<NaiveDate>) -> LinkedList<
             |d| day1 - Duration::days(d)).rev().collect()
         ).collect();
 
-    return res
+    res
 }
