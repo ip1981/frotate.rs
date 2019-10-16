@@ -87,8 +87,8 @@ mod tests {
                        d(2019, 09, 01), d(2019, 09, 02),
                        d(2019, 09, 03), d(2019, 09, 04)];
         let outs = list![list![d(2019, 09, 04)],
-                         list![d(2019, 09, 02), d(2019, 09, 03)],
-                         list![d(2019, 08, 30), d(2019, 08, 31), d(2019, 09, 01)]];
+                         list![d(2019, 09, 03), d(2019, 09, 02)],
+                         list![d(2019, 09, 01), d(2019, 08, 31), d(2019, 08, 30)]];
 
         assert_eq!(partition_days(&exp2, &ins), outs);
     }
@@ -138,7 +138,6 @@ pub fn partition_days(
         .map(|l| {
             l.into_iter()
                 .map(|d| day1 - Duration::days(d))
-                .rev()
                 .collect()
         })
         .collect();

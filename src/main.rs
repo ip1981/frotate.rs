@@ -7,6 +7,7 @@ use std::process::exit;
 use chrono::NaiveDate;
 use docopt::Docopt;
 use serde::Deserialize;
+use std::collections::LinkedList;
 
 mod lib;
 use lib::partition_days;
@@ -40,7 +41,11 @@ fn main() {
         .and_then(|d| d.deserialize())
         .unwrap_or_else(|e| e.exit());
 
-    let parts = partition_days(&|n| exponent(args.flag_base, n), &args.arg_day);
+    let parts: LinkedList<LinkedList<NaiveDate>> =
+        partition_days(&|n| exponent(args.flag_base, n), &args.arg_day)
+        .into_iter()
+        .map(|l| l.into_iter().rev().collect())
+        .collect();
 
     if args.flag_keep {
         for days in parts.iter() {
