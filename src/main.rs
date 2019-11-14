@@ -9,8 +9,8 @@ use docopt::Docopt;
 use serde::Deserialize;
 use std::collections::LinkedList;
 
-mod lib;
-use lib::partition_days;
+mod partition;
+use partition::partition_days;
 
 const USAGE: &'static str = "
 Usage: frotate [-k|-d] [-b <base>] <day>...
