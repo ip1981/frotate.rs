@@ -43,9 +43,9 @@ fn main() {
 
     let parts: LinkedList<LinkedList<NaiveDate>> =
         partition_days(&|n| exponent(args.flag_base, n), &args.arg_day)
-        .into_iter()
-        .map(|l| l.into_iter().rev().collect())
-        .collect();
+            .into_iter()
+            .map(|l| l.into_iter().rev().collect())
+            .collect();
 
     if args.flag_keep {
         for days in parts.iter() {
