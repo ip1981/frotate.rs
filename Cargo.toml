@@ -1,11 +1,12 @@
 [package]
 authors = ["Igor Pashev <pashev.igor@gmail.com>"]
+description = "Advanced rotation of backups and other things"
 edition = "2018"
 license = "WTFPL"
 name = "frotate"
 readme = "README.md"
 repository = "https://github.com/ip1981/frotate.rs"
-version = "0.1.0"
+version = "0.1.1"
 
 [dependencies]
 chrono = { version = "0.4", features = ["serde"] }
