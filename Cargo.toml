@@ -1,7 +1,10 @@
 [package]
 authors = ["Igor Pashev <pashev.igor@gmail.com>"]
+edition = "2018"
 license = "WTFPL"
 name = "frotate"
+readme = "README.md"
+repository = "https://github.com/ip1981/frotate.rs"
 version = "0.1.0"
 
 [dependencies]
