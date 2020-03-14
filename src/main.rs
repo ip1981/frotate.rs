@@ -12,7 +12,7 @@ use std::collections::LinkedList;
 mod partition;
 use partition::partition_days;
 
-const USAGE: &'static str = "
+const USAGE: &str = "
 Usage: frotate [-k|-d] [-b <base>] <day>...
        frotate --help
 
@@ -49,9 +49,8 @@ fn main() {
 
     if args.flag_keep {
         for days in parts.iter() {
-            match days.front() {
-                Some(d) => print!("{:?} ", d),
-                None => {}
+            if let Some(d) = days.front() {
+                print!("{:?} ", d)
             }
         }
         println!();

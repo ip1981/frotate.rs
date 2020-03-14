@@ -132,7 +132,7 @@ mod tests {
     }
 }
 
-pub fn partition(f: &dyn Fn(u32) -> i64, v: &Vec<i64>) -> LinkedList<LinkedList<i64>> {
+pub fn partition(f: &dyn Fn(u32) -> i64, v: &[i64]) -> LinkedList<LinkedList<i64>> {
     let mut term: LinkedList<i64> = LinkedList::new();
     let mut res: LinkedList<LinkedList<i64>> = LinkedList::new();
     let mut n: u32 = 1;
@@ -154,7 +154,7 @@ pub fn partition(f: &dyn Fn(u32) -> i64, v: &Vec<i64>) -> LinkedList<LinkedList<
 
 pub fn partition_days(
     f: &dyn Fn(u32) -> i64,
-    days: &Vec<NaiveDate>,
+    days: &[NaiveDate],
 ) -> LinkedList<LinkedList<NaiveDate>> {
     let day1 = days[0];
     let part;
@@ -171,10 +171,7 @@ pub fn partition_days(
         part = partition(f, &v);
     }
 
-    let res = part
-        .into_iter()
+    part.into_iter()
         .map(|l| l.into_iter().map(|d| day1 - Duration::days(d)).collect())
-        .collect();
-
-    res
+        .collect()
 }
