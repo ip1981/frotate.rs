@@ -1,13 +1,8 @@
-extern crate chrono;
-extern crate docopt;
-extern crate serde;
-
-use std::process::exit;
-
 use chrono::NaiveDate;
 use docopt::Docopt;
 use serde::Deserialize;
 use std::collections::LinkedList;
+use std::process::exit;
 
 mod partition;
 use partition::partition_days;
