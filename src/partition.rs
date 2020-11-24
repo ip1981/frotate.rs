@@ -15,7 +15,9 @@ mod tests {
     use super::partition_days;
 
     macro_rules! list {
-        ( $( $x:expr ),* ) => {
+        () => { LinkedList::new() };
+
+        ($( $x:expr ),+ ) => {
             {
                 let mut temp_list = LinkedList::new();
                 $(
