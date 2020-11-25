@@ -1,9 +1,7 @@
-extern crate chrono;
-
 use std::collections::LinkedList;
 
 use chrono::Duration;
-use chrono::NaiveDate;
+use chrono::{NaiveDate, NaiveDateTime};
 
 #[cfg(test)]
 mod tests {
@@ -43,7 +41,7 @@ mod tests {
             list![9]
         ];
 
-        assert_eq!(partition(&|_n| 1, ins[0], &ins), outs);
+        assert_eq!(partition(&|_n| 1, ins[0], ins.into_iter()), outs);
     }
 
     #[test]
@@ -51,7 +49,7 @@ mod tests {
         let ins = vec![1, 2, 3, 4, 5, 6, 7, 8, 9];
         let outs = list![list![1, 2], list![3, 4], list![5, 6], list![7, 8], list![9]];
 
-        assert_eq!(partition(&|_n| 2, ins[0], &ins), outs);
+        assert_eq!(partition(&|_n| 2, ins[0], ins.into_iter()), outs);
     }
 
     #[test]
@@ -75,7 +73,7 @@ mod tests {
             list![15]
         ];
 
-        assert_eq!(partition(&|_n| 1, ins[0], &ins), outs);
+        assert_eq!(partition(&|_n| 1, ins[0], ins.into_iter()), outs);
     }
 
     #[test]
@@ -92,7 +90,7 @@ mod tests {
             list![15]
         ];
 
-        assert_eq!(partition(&|_n| 2, ins[0], &ins), outs);
+        assert_eq!(partition(&|_n| 2, ins[0], ins.into_iter()), outs);
     }
 
     fn exp2(n: u32) -> i64 {
@@ -110,7 +108,7 @@ mod tests {
             list![8, 9, 10, 11, 12, 13]
         ];
 
-        assert_eq!(partition(&exp2, ins[0], &ins), outs);
+        assert_eq!(partition(&exp2, ins[0], ins.into_iter()), outs);
     }
 
     #[test]
@@ -133,14 +131,16 @@ mod tests {
         assert_eq!(partition_days(&exp2, &ins), outs);
     }
 }
-
-pub fn partition(f: &dyn Fn(u32) -> i64, v0: i64, v: &[i64]) -> LinkedList<LinkedList<i64>> {
+fn partition<I>(f: &dyn Fn(u32) -> i64, v0: i64, v: I) -> LinkedList<LinkedList<i64>>
+where
+    I: IntoIterator<Item = i64>,
+{
     let mut term: LinkedList<i64> = LinkedList::new();
     let mut res: LinkedList<LinkedList<i64>> = LinkedList::new();
     let mut n: u32 = 1;
     let mut a: i64 = v0;
 
-    for &i in v.iter() {
+    for i in v {
         while i >= a + f(n) {
             res.push_back(term);
             term = LinkedList::new();
@@ -159,21 +159,36 @@ pub fn partition_days(
     days: &[NaiveDate],
 ) -> LinkedList<LinkedList<NaiveDate>> {
     let day1 = days[0];
-    let part;
+    let mut v: Vec<i64> = days.into_iter().map(|&d| (day1 - d).num_days()).collect();
+    v.sort_unstable();
+    v.dedup();
 
-    {
-        let mut v: Vec<i64> = Vec::with_capacity(days.len());
-
-        for &d in days.iter() {
-            v.push((day1 - d).num_days());
-        }
-        v.sort_unstable();
-        v.dedup();
-
-        part = partition(f, v[0], &v);
-    }
+    let part = partition(f, v[0], v);
 
     part.into_iter()
         .map(|l| l.into_iter().map(|d| day1 - Duration::days(d)).collect())
+        .collect()
+}
+
+pub fn partition_datetime(
+    f: &dyn Fn(u32) -> i64,
+    start: NaiveDateTime,
+    datetimes: &[NaiveDateTime],
+) -> LinkedList<LinkedList<NaiveDateTime>> {
+    let mut v: Vec<i64> = datetimes
+        .into_iter()
+        .map(|&d| (start - d).num_seconds())
+        .collect();
+    v.sort_unstable();
+    v.dedup();
+
+    let part = partition(f, 0, v);
+
+    part.into_iter()
+        .map(|l| {
+            l.into_iter()
+                .map(|d| start - Duration::seconds(d))
+                .collect()
+        })
         .collect()
 }
